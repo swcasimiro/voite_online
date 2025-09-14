@@ -1,0 +1,75 @@
+# 1. Среда разработки (Virtual Environment)
+# Укажите название вашего виртуального окручения (venv, env, .venv и т.д.)
+venv/
+env/
+.venv/
+ENV/
+
+# 2. Файлы настроек и переменные окружения
+# КРИТИЧЕСКИ ВАЖНО: Не коммитить секретные ключи!
+.env
+.env.local
+.env.*.local
+.env.production
+.env.dev
+.env.sample
+secrets.json
+
+# 3. Файл базы данных SQLite (распространенная ошибка новичков!)
+*.sqlite3
+*.db
+
+# 4. Питоновские кэши и скомпилированные файлы
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+build/
+develop-eggs/
+dist/
+downloads/
+eggs/
+.eggs/
+lib/
+lib64/
+parts/
+sdist/
+var/
+wheels/
+pip-wheel-metadata/
+share/python-wheels/
+*.egg-info/
+.installed.cfg
+*.egg
+MANIFEST
+
+# 5. Кэш PyInstaller
+*.manifest
+*.spec
+
+# 6. Файлы настроек IDE (если используете)
+# PyCharm, VSCode
+.idea/
+.vscode/
+*.swp
+*.swo
+*~
+
+# 7. Логи и временные файлы
+*.log
+local_settings.py
+
+# 8. Статика (если собирается через collectstatic)
+# Это не обязательно, но часто нужно, чтобы не коммитить собранные файлы
+/staticfiles/
+/mediafiles/
+
+# 9. Файлы операционной системы
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
+Thumbs.db
