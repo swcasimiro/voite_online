@@ -1,16 +1,29 @@
-FROM python:3.11.4-slim-buster
+FROM python:3.11-slim-bookworm
 
-WORKDIR /usr/src/app
-
-ENV PYTHONUNBUFFERED 1
 ENV PYTHONDONTWRITEBYTECODE 1
+ENV PYTHONUNBUFFERED 1
 
-RUN apt-get update && apt-get install -y netcat
+# зависимости для сборки пакетов
+#RUN apt-get update \
+#    && apt-get install -y --no-install-recommends \
+#        gcc \
+#        python3-dev \
+#        libpq-dev \
+#        libjpeg-dev \
+#        libopenjp2-7-dev \
+#        zlib1g-dev \
+#    && rm -rf /var/lib/apt/lists/*
 
-RUN pip install --upgrade pip
-COPY ./requirements.txt .
-RUN pip install -r requirements.txt
+WORKDIR /app
 
+COPY requirements.txt .
+RUN pip install --no-cache-dir -r requirements.txt
+
+COPY . .
+
+EXPOSE 8000
+
+CMD ["python", "manage.py", "runserver", "0.0.0.0:8000"]
 
 
 
