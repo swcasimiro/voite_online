@@ -35,6 +35,11 @@ ALLOWED_HOSTS = ['localhost', '127.0.0.1', '0.0.0.0']
 # Application definition
 
 INSTALLED_APPS = [
+    # django-unfold admin UI
+    'unfold',
+    'unfold.contrib.filters',
+    'unfold.contrib.forms',
+
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -83,6 +88,15 @@ DATABASES = {
     }
 }
 
+
+# Django unfold settings NAMING
+
+UNFOLD = {
+    "SITE_TITLE": "Admin Panel",
+    "SITE_HEADER": "Voite Online",
+    "SITE_URL": "/",
+    "THEME": "dark",  # auto, light, dark
+}
 
 # Password validation
 # https://docs.djangoproject.com/en/5.2/ref/settings/#auth-password-validators
