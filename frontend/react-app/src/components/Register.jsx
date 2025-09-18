@@ -189,7 +189,7 @@ function Register({ backgroundImage = 'https://skrinshoter.ru/s/160925/7IxE0gwP.
               Зарегистрироваться
             </button>
             <div className="auth-link">
-              Есть аккаунт? <Link to="/register">Войти</Link>
+              Есть аккаунт? <Link to="/login">Войти</Link>
             </div>
           </form>
         </div>
