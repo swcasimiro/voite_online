@@ -1,5 +1,6 @@
+
 import { useState } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import './Auth.css';
 
 function Login({ backgroundImage = 'https://skrinshoter.ru/s/160925/7IxE0gwP.jpg?download=1&name=%D0%A1%D0%BA%D1%80%D0%B8%D0%BD%D1%88%D0%BE%D1%82-16-09-2025%2015:34:33.jpg' }) {
@@ -8,11 +9,45 @@ function Login({ backgroundImage = 'https://skrinshoter.ru/s/160925/7IxE0gwP.jpg
     password: ''
   });
 
+  const [isLoading, setIsLoading] = useState(false);
+  const [error, setError] = useState('');
+  const navigate = useNavigate();
+
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    console.log('Login data:', formData);
+    setIsLoading(true);
+    setError('');
+
+    try {
+      const response = await fetch('http://127.0.0.1:8000/api/users/v1.0.0/login/', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(formData),
+      });
+
+      const data = await response.json();
+
+      if (response.ok) {
+        // Сохраняем токены в localStorage
+        localStorage.setItem('access_token', data.access);
+        localStorage.setItem('refresh_token', data.refresh);
+        localStorage.setItem('user', JSON.stringify(data.user));
+        
+        // Перенаправляем на главную страницу
+        navigate('/');
+        window.location.reload(); // Обновляем страницу для применения авторизации
+      } else {
+        setError(data.error || data.detail || 'Ошибка авторизации');
+      }
+    } catch (error) {
+      setError('Ошибка соединения с сервером');
+    } finally {
+      setIsLoading(false);
+    }
   };
 
   const handleChange = (e) => {
@@ -20,6 +55,7 @@ function Login({ backgroundImage = 'https://skrinshoter.ru/s/160925/7IxE0gwP.jpg
       ...formData,
       [e.target.name]: e.target.value
     });
+    setError(''); // Очищаем ошибку при изменении поля
   };
 
   const toggleMobileMenu = () => {
@@ -134,6 +170,20 @@ function Login({ backgroundImage = 'https://skrinshoter.ru/s/160925/7IxE0gwP.jpg
       >
         <div className="auth-card">
           <h2>Вход в систему</h2>
+          
+          {error && (
+            <div className="error-message" style={{
+              color: '#e74c3c',
+              backgroundColor: '#fde8e6',
+              padding: '12px',
+              borderRadius: '8px',
+              marginBottom: '20px',
+              border: '1px solid #f5c6cb'
+            }}>
+              {error}
+            </div>
+          )}
+          
           <form onSubmit={handleSubmit} className="auth-form">
             <div className="form-group">
               <label htmlFor="email">Email</label>
@@ -145,6 +195,7 @@ function Login({ backgroundImage = 'https://skrinshoter.ru/s/160925/7IxE0gwP.jpg
                 onChange={handleChange}
                 required
                 placeholder="Введите ваш email"
+                disabled={isLoading}
               />
             </div>
             <div className="form-group">
@@ -157,10 +208,16 @@ function Login({ backgroundImage = 'https://skrinshoter.ru/s/160925/7IxE0gwP.jpg
                 onChange={handleChange}
                 required
                 placeholder="Введите ваш пароль"
+                disabled={isLoading}
               />
             </div>
-            <button type="submit" className="auth-btn">
-              Войти
+            <button 
+              type="submit" 
+              className="auth-btn"
+              disabled={isLoading}
+              style={{ opacity: isLoading ? 0.7 : 1 }}
+            >
+              {isLoading ? 'Вход...' : 'Войти'}
             </button>
             
             <div className="auth-link">

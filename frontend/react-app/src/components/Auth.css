@@ -141,3 +141,19 @@
   transform: translateY(0);
   box-shadow: 0 3px 8px rgba(48, 92, 110, 0.3);
 }
+
+
+.error-message {
+  color: #e74c3c;
+  background-color: #fde8e6;
+  padding: 12px;
+  border-radius: 8px;
+  margin-bottom: 20px;
+  border: 1px solid #f5c6cb;
+  font-size: 14px;
+}
+
+.auth-btn:disabled {
+  opacity: 0.7;
+  cursor: not-allowed;
+}
