@@ -40,6 +40,24 @@ class CustomUser(AbstractUser):
         ],
     )
 
+    #auth = models.BooleanField(
+    #    'Подтвержден',
+    #    default=False,
+    #    help_text='Если аккаунт подтвержден, то может голосовать.'
+    #)
+
+    #image_pass = models.ImageField(
+    #    'Паспорт',
+    #    upload_to='images/',
+    #    help_text='Фотография паспорта'
+    #)
+
+    #image_stats = models.ImageField(
+    #    'Статистика',
+    #    upload_to='images/',
+    #    help_text='Фотография статистики'
+    #)
+
     # using auth
     USERNAME_FIELD = 'email'
 
