@@ -1,5 +1,8 @@
-import { useState } from 'react';
+// src/components/Login.jsx
+import { useState, useEffect } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
+import { useAuth } from '../hooks/useAuth';
+import Navigation from './Navigation';
 import './Auth.css';
 
 function Login({ backgroundImage = 'https://skrinshoter.ru/s/160925/7IxE0gwP.jpg?download=1&name=%D0%A1%D0%BA%D1%80%D0%B8%D0%BD%D1%88%D0%BE%D1%82-16-09-2025%2015:34:33.jpg' }) {
@@ -11,8 +14,32 @@ function Login({ backgroundImage = 'https://skrinshoter.ru/s/160925/7IxE0gwP.jpg
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState('');
   const navigate = useNavigate();
+  const { isAuthenticated, isLoading: authLoading } = useAuth();
 
-  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+  // Перенаправляем если авторизован
+  useEffect(() => {
+    if (isAuthenticated && !authLoading) {
+      navigate('/');
+    }
+  }, [isAuthenticated, authLoading, navigate]);
+
+  // Показываем лоадер пока проверяем авторизацию
+  if (authLoading) {
+    return (
+      <div className="app-wrapper">
+        <Navigation />
+        <div className="loading-container">
+          <div className="loading-spinner"></div>
+          <p>Проверка авторизации...</p>
+        </div>
+      </div>
+    );
+  }
+
+  // Не рендерим форму если авторизованы
+  if (isAuthenticated) {
+    return null;
+  }
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -38,7 +65,7 @@ function Login({ backgroundImage = 'https://skrinshoter.ru/s/160925/7IxE0gwP.jpg
         
         // Перенаправляем на главную страницу
         navigate('/');
-        window.location.reload(); // Обновляем страницу для применения авторизации
+        window.location.reload();
       } else {
         setError(data.error || data.detail || 'Ошибка авторизации');
       }
@@ -54,114 +81,13 @@ function Login({ backgroundImage = 'https://skrinshoter.ru/s/160925/7IxE0gwP.jpg
       ...formData,
       [e.target.name]: e.target.value
     });
-    setError(''); // Очищаем ошибку при изменении поля
-  };
-
-  const toggleMobileMenu = () => {
-    setIsMobileMenuOpen(!isMobileMenuOpen);
-    document.body.style.overflow = !isMobileMenuOpen ? 'hidden' : 'unset';
-  };
-
-  const closeMobileMenu = () => {
-    setIsMobileMenuOpen(false);
-    document.body.style.overflow = 'unset';
+    setError('');
   };
 
   return (
     <div className="app-wrapper">
-      {/* Navigation */}
-      <nav className="navbar">
-        <div className="nav-container">
-          <div className="nav-brand">
-            <Link to="/">
-              <img src="https://gov.gta.world/ext/planetstyles/flightdeck/store/City%20of%20los%20santos.png" alt="Логотип" className="logo" />
-            </Link>
-            
-            <div className="nav-links">
-              <a href="#about" onClick={closeMobileMenu}>Выборы</a>
-              <a href="#about" onClick={closeMobileMenu}>Кандидаты</a>
-              <a href="#features" onClick={closeMobileMenu}>Преимущества</a>
-              <a href="#process" onClick={closeMobileMenu}>Процесс</a>
-              <a href="#contact" onClick={closeMobileMenu}>Контакты</a>
-            </div>
-          </div>
-
-          <div className="nav-buttons">
-            <Link to="/login" className="nav-btn login-btn">Войти</Link>
-            <Link to="/register" className="nav-btn register-btn">Регистрация</Link>
-          </div>
-
-          {/* Mobile Menu Button */}
-          <button 
-            className={`mobile-menu-btn ${isMobileMenuOpen ? 'active' : ''}`}
-            onClick={toggleMobileMenu}
-            aria-label="Открыть меню"
-          >
-            <span></span>
-            <span></span>
-            <span></span>
-          </button>
-        </div>
-      </nav>
-
-      {/* Mobile Menu Overlay */}
-      <div 
-        className={`mobile-menu-overlay ${isMobileMenuOpen ? 'active' : ''}`}
-        onClick={closeMobileMenu}
-      ></div>
-
-      {/* Mobile Menu */}
-      <div className={`mobile-menu ${isMobileMenuOpen ? 'active' : ''}`}>
-        <div className="mobile-menu-header">
-          <img 
-            src="https://gov.gta.world/ext/planetstyles/flightdeck/store/City%20of%20los%20santos.png" 
-            alt="Логотип" 
-            className="logo"
-            style={{width: '50px', height: '50px'}}
-          />
-          <button 
-            className="mobile-menu-close"
-            onClick={closeMobileMenu}
-            aria-label="Закрыть меню"
-          >
-            ✕
-          </button>
-        </div>
-
-        <nav className="mobile-nav-links">
-          <a href="#about" onClick={closeMobileMenu}>
-            Выборы
-          </a>
-          <a href="#about" onClick={closeMobileMenu}>
-            Кандидаты
-          </a>
-          <a href="#features" onClick={closeMobileMenu}>
-            Преимущества
-          </a>
-          <a href="#process" onClick={closeMobileMenu}>
-            Процесс
-          </a>
-          <a href="#contact" onClick={closeMobileMenu}>
-            Контакты
-          </a>
-        </nav>
-
-        <div className="mobile-menu-buttons">
-          <Link to="/login" className="nav-btn login-btn" onClick={closeMobileMenu}>
-            Войти
-          </Link>
-          <Link to="/register" className="nav-btn register-btn" onClick={closeMobileMenu}>
-            Регистрация
-          </Link>
-        </div>
-
-        <div style={{marginTop: '2rem', padding: '1rem', background: 'var(--gray-light)', borderRadius: '0.75rem'}}>
-          <p style={{fontSize: '0.9rem', color: 'var(--gray)', textAlign: 'center'}}>
-            Современная платформа для честных выборов
-          </p>
-        </div>
-      </div>
-
+      <Navigation />
+      
       {/* Auth Container */}
       <div 
         className="auth-container"

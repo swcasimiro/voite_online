@@ -1,9 +1,13 @@
-// src/components/Navigation.jsx
+// src/components/AuthNavigation.jsx
 import { useState } from 'react';
 import { Link } from 'react-router-dom';
 
-const Navigation = () => {
+const AuthNavigation = () => {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+
+  // Получаем данные пользователя из localStorage
+  const userData = JSON.parse(localStorage.getItem('user') || '{}');
+  const userName = userData.name || 'Пользователь'; // Используем поле name
 
   const toggleMobileMenu = () => {
     setIsMobileMenuOpen(!isMobileMenuOpen);
@@ -17,7 +21,7 @@ const Navigation = () => {
 
   return (
     <>
-      {/* Navigation */}
+      {/* Navigation для авторизованных */}
       <nav className="navbar">
         <div className="nav-container">
           <div className="nav-brand">
@@ -26,16 +30,17 @@ const Navigation = () => {
             </Link>
             
             <div className="nav-links">
-              <a href="/register" onClick={closeMobileMenu}>Выборы</a>
-              <a href="/register" onClick={closeMobileMenu}>Кандидаты</a>
-              <a href="#process" onClick={closeMobileMenu}>Процесс</a>
-              <a href="https://github.com/swcasimiro" onClick={closeMobileMenu}>Контакты</a>
+              <Link to="/elections" onClick={closeMobileMenu}>Выборы</Link>
+              <Link to="/candidates" onClick={closeMobileMenu}>Кандидаты</Link>
+              <Link to="/profile" onClick={closeMobileMenu}>Профиль</Link>
             </div>
           </div>
 
           <div className="nav-buttons">
-            <Link to="/login" className="nav-btn login-btn">Войти</Link>
-            <Link to="/register" className="nav-btn register-btn">Регистрация</Link>
+            {/* Вместо кнопки выхода показываем имя пользователя */}
+            <span className="user-welcome">
+              Добро пожаловать, <strong>{userName}</strong>
+            </span>
           </div>
 
           {/* Mobile Menu Button */}
@@ -51,13 +56,7 @@ const Navigation = () => {
         </div>
       </nav>
 
-      {/* Mobile Menu Overlay */}
-      <div 
-        className={`mobile-menu-overlay ${isMobileMenuOpen ? 'active' : ''}`}
-        onClick={closeMobileMenu}
-      ></div>
-
-      {/* Mobile Menu */}
+      {/* Mobile Menu для авторизованных */}
       <div className={`mobile-menu ${isMobileMenuOpen ? 'active' : ''}`}>
         <div className="mobile-menu-header">
           <img 
@@ -75,29 +74,23 @@ const Navigation = () => {
           </button>
         </div>
 
-        <nav className="mobile-nav-links">
-          <a href="/register" onClick={closeMobileMenu}>
-            Выборы
-          </a>
-          <a href="/register" onClick={closeMobileMenu}>
-            Кандидаты
-          </a>
-          <a href="#process" onClick={closeMobileMenu}>
-            Процесс
-          </a>
-          <a href="https://github.com/swcasimiro" onClick={closeMobileMenu}>
-            Контакты
-          </a>
-        </nav>
-
-        <div className="mobile-menu-buttons">
-          <Link to="/login" className="nav-btn login-btn" onClick={closeMobileMenu}>
-            Войти
-          </Link>
-          <Link to="/register" className="nav-btn register-btn" onClick={closeMobileMenu}>
-            Регистрация
-          </Link>
+        {/* Блок с приветствием в мобильном меню */}
+        <div className="mobile-user-info">
+          <p>Добро пожаловать,</p>
+          <strong>{userName}</strong>
         </div>
+
+        <nav className="mobile-nav-links">
+          <Link to="/elections" onClick={closeMobileMenu}>
+            Выборы
+          </Link>
+          <Link to="/candidates" onClick={closeMobileMenu}>
+            Кандидаты
+          </Link>
+          <Link to="/profile" onClick={closeMobileMenu}>
+            Профиль
+          </Link>
+        </nav>
 
         <div style={{marginTop: '2rem', padding: '1rem', background: 'var(--gray-light)', borderRadius: '0.75rem'}}>
           <p style={{fontSize: '0.9rem', color: 'var(--gray)', textAlign: 'center'}}>
@@ -109,4 +102,4 @@ const Navigation = () => {
   );
 };
 
-export default Navigation;
+export default AuthNavigation;

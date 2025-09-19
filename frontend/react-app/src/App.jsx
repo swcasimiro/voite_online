@@ -1,10 +1,14 @@
 import { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
+import { useAuth } from './hooks/useAuth';
+import AuthNavigation from './components/AuthNavigation';
+import Navigation from './components/Navigation'; // Импортируем обычную навигацию
 import './App.css';
 
 function App() {
   const [isVisible, setIsVisible] = useState(false);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+  const { isAuthenticated, isLoading: authLoading } = useAuth();
 
   useEffect(() => {
     setIsVisible(true);
@@ -45,100 +49,30 @@ function App() {
     document.body.style.overflow = 'unset';
   };
 
-  return (
-    <div className="app">
-      {/* Navigation */}
-      <nav className="navbar">
-        <div className="nav-container">
-          <div className="nav-brand">
-            <Link to="/">
-              <img src="https://gov.gta.world/ext/planetstyles/flightdeck/store/City%20of%20los%20santos.png" alt="Логотип" className="logo" />
-            </Link>
-            
-            <div className="nav-links">
-              <a href="#about" onClick={closeMobileMenu}>Выборы</a>
-              <a href="#about" onClick={closeMobileMenu}>Кандидаты</a>
-              <a href="#features" onClick={closeMobileMenu}>Преимущества</a>
-              <a href="#process" onClick={closeMobileMenu}>Процесс</a>
-              <a href="#contact" onClick={closeMobileMenu}>Контакты</a>
-            </div>
-          </div>
-
-          <div className="nav-buttons">
-            <Link to="/login" className="nav-btn login-btn">Войти</Link>
-            <Link to="/register" className="nav-btn register-btn">Регистрация</Link>
-          </div>
-
-          {/* Mobile Menu Button */}
-          <button 
-            className={`mobile-menu-btn ${isMobileMenuOpen ? 'active' : ''}`}
-            onClick={toggleMobileMenu}
-            aria-label="Открыть меню"
-          >
-            <span></span>
-            <span></span>
-            <span></span>
-          </button>
-        </div>
-      </nav>
-
-      {/* Mobile Menu Overlay */}
-      <div 
-        className={`mobile-menu-overlay ${isMobileMenuOpen ? 'active' : ''}`}
-        onClick={closeMobileMenu}
-      ></div>
-
-      {/* Mobile Menu */}
-      <div className={`mobile-menu ${isMobileMenuOpen ? 'active' : ''}`}>
-        <div className="mobile-menu-header">
-          <img 
-            src="https://gov.gta.world/ext/planetstyles/flightdeck/store/City%20of%20los%20santos.png" 
-            alt="Логотип" 
-            className="logo"
-            style={{width: '50px', height: '50px'}}
-          />
-          <button 
-            className="mobile-menu-close"
-            onClick={closeMobileMenu}
-            aria-label="Закрыть меню"
-          >
-            <i className="fas fa-times"></i>
-          </button>
-        </div>
-
-        <nav className="mobile-nav-links">
-          <a href="#about" onClick={closeMobileMenu}>
-            <i className="fas fa-vote-yea"></i> Выборы
-          </a>
-          <a href="#about" onClick={closeMobileMenu}>
-            <i className="fas fa-users"></i> Кандидаты
-          </a>
-          <a href="#features" onClick={closeMobileMenu}>
-            <i className="fas fa-star"></i> Преимущества
-          </a>
-          <a href="#process" onClick={closeMobileMenu}>
-            <i className="fas fa-cogs"></i> Процесс
-          </a>
-          <a href="#contact" onClick={closeMobileMenu}>
-            <i className="fas fa-phone"></i> Контакты
-          </a>
-        </nav>
-
-        <div className="mobile-menu-buttons">
-          <Link to="/login" className="nav-btn login-btn" onClick={closeMobileMenu}>
-            <i className="fas fa-sign-in-alt"></i> Войти
-          </Link>
-          <Link to="/register" className="nav-btn register-btn" onClick={closeMobileMenu}>
-            <i className="fas fa-user-plus"></i> Регистрация
-          </Link>
-        </div>
-
-        <div style={{marginTop: '2rem', padding: '1rem', background: 'var(--gray-light)', borderRadius: '0.75rem'}}>
-          <p style={{fontSize: '0.9rem', color: 'var(--gray)', textAlign: 'center'}}>
-            Современная платформа для честных выборов
-          </p>
+  // Показываем лоадер пока проверяем авторизацию
+  if (authLoading) {
+    return (
+      <div className="app">
+        <div className="loading-container">
+          <div className="loading-spinner"></div>
+          <p>Загрузка...</p>
         </div>
       </div>
+    );
+  }
+
+  return (
+    <div className="app">
+      {/* Условный рендеринг навигации */}
+      {isAuthenticated ? (
+        <AuthNavigation />
+      ) : (
+        <Navigation 
+          isMobileMenuOpen={isMobileMenuOpen}
+          toggleMobileMenu={toggleMobileMenu}
+          closeMobileMenu={closeMobileMenu}
+        />
+      )}
 
       {/* Hero Section */}
       <header className={`hero ${isVisible ? 'visible' : ''}`}>
@@ -216,7 +150,6 @@ function App() {
         </div>
       </section>
 
-
       {/* Footer */}
       <footer className="footer">
         <div className="section-container">
@@ -243,6 +176,5 @@ function App() {
     </div>
   );
 }
-
 
 export default App;
