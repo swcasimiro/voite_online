@@ -8,6 +8,7 @@ const AuthNavigation = () => {
   // Получаем данные пользователя из localStorage
   const userData = JSON.parse(localStorage.getItem('user') || '{}');
   const userName = userData.name || 'Пользователь'; // Используем поле name
+  
 
   const toggleMobileMenu = () => {
     setIsMobileMenuOpen(!isMobileMenuOpen);

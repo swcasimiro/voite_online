@@ -1,35 +1,27 @@
-
-
-
-
-
-
-
-
+/* src/components/Candidates.css */
 .candidates-container {
   width: 100%;
-  background: #ffffff;
-  padding-top: 100px;
+  background: #f8fafc;
+  padding: 80px 20px 40px;
   min-height: 100vh;
-  display: flex;
-  justify-content: center;
 }
 
 .candidates-content {
-  width: 90%;
-  max-width: 1200px;
+  padding-top:120px;
+    width: 100%;
+  max-width: 1400px;
   margin: 0 auto;
-  padding-top: 60px;
 }
 
 .candidates-header {
   text-align: center;
-  margin-bottom: 4rem;
+  margin-bottom: 3rem;
+  padding: 0 20px;
 }
 
 .candidates-title {
   color: #1a365d;
-  font-size: 3rem;
+  font-size: 2.5rem;
   font-weight: 700;
   margin-bottom: 1rem;
   background: linear-gradient(135deg, #305c6e, #4a8fa5);
@@ -39,8 +31,8 @@
 }
 
 .candidates-subtitle {
-  color: #718096;
-  font-size: 1.2rem;
+  color: #64748b;
+  font-size: 1.1rem;
   line-height: 1.6;
   max-width: 600px;
   margin: 0 auto;
@@ -48,29 +40,31 @@
 
 .candidates-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(380px, 1fr));
-  gap: 2.5rem;
-  margin-bottom: 4rem;
+  grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+  gap: 2rem;
+  margin-bottom: 3rem;
+  padding: 0 10px;
 }
 
 .candidate-card {
   background: #ffffff;
-  border-radius: 20px;
+  border-radius: 16px;
   overflow: hidden;
-  box-shadow: 0 8px 30px rgba(0, 0, 0, 0.12);
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
   transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
   border: 1px solid #e2e8f0;
   position: relative;
+  height: fit-content;
 }
 
 .candidate-card:hover {
-  transform: translateY(-8px);
-  box-shadow: 0 20px 50px rgba(0, 0, 0, 0.15);
+  transform: translateY(-5px);
+  box-shadow: 0 12px 30px rgba(0, 0, 0, 0.12);
 }
 
 .candidate-image {
   position: relative;
-  height: 280px;
+  height: 220px;
   overflow: hidden;
 }
 
@@ -82,152 +76,103 @@
 }
 
 .candidate-card:hover .candidate-image img {
-  transform: scale(1.08);
+  transform: scale(1.05);
 }
 
 .candidate-overlay {
   position: absolute;
-  top: 1.5rem;
-  right: 1.5rem;
+  top: 1rem;
+  right: 1rem;
 }
 
 .candidate-badge {
   background: linear-gradient(135deg, #305c6e, #4a8fa5);
   color: white;
-  padding: 0.6rem 1.2rem;
-  border-radius: 25px;
-  font-size: 0.85rem;
+  padding: 0.4rem 0.8rem;
+  border-radius: 20px;
+  font-size: 0.8rem;
   font-weight: 600;
-  letter-spacing: 0.5px;
+  letter-spacing: 0.3px;
 }
 
 .candidate-info {
-  padding: 2rem;
+  padding: 1.5rem;
 }
 
 .candidate-name {
-  color: #2d3748;
-  font-size: 1.6rem;
+  color: #1e293b;
+  font-size: 1.3rem;
   font-weight: 700;
-  margin-bottom: 1.2rem;
+  margin-bottom: 0.8rem;
   line-height: 1.3;
 }
 
 .candidate-party {
-  margin-bottom: 1.5rem;
-  font-size: 0.95rem;
-  display: flex;
-  align-items: center;
-  gap: 0.5rem;
-}
-
-.candidate-party span {
-  color: #718096;
-  font-weight: 600;
+  margin-bottom: 1rem;
 }
 
 .party-link {
   color: #305c6e;
   text-decoration: none;
-  font-weight: 700;
+  font-weight: 600;
+  font-size: 0.9rem;
   transition: all 0.2s ease;
-  padding: 0.3rem 0.8rem;
-  background: rgba(48, 92, 110, 0.1);
-  border-radius: 12px;
+  padding: 0.3rem 0.6rem;
+  background: rgba(48, 92, 110, 0.08);
+  border-radius: 8px;
+  display: inline-block;
 }
 
 .party-link:hover {
   color: #4a8fa5;
-  background: rgba(48, 92, 110, 0.15);
-  transform: translateY(-1px);
+  background: rgba(48, 92, 110, 0.12);
 }
 
 .candidate-description {
-  color: #4a5568;
-  line-height: 1.7;
-  margin-bottom: 2rem;
-  font-size: 1rem;
+  color: #475569;
+  line-height: 1.6;
+  margin-bottom: 1.5rem;
+  font-size: 0.95rem;
   font-weight: 400;
+  display: -webkit-box;
+  -webkit-line-clamp: 3;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
 }
 
 .candidate-actions {
   display: flex;
-  gap: 1rem;
+  gap: 0.8rem;
 }
 
 .candidate-btn {
   flex: 1;
-  padding: 1rem 1.8rem;
+  padding: 0.8rem 1.2rem;
   border: none;
-  border-radius: 14px;
-  font-size: 0.95rem;
+  border-radius: 10px;
+  font-size: 0.9rem;
   font-weight: 600;
   cursor: pointer;
   transition: all 0.3s ease;
   text-align: center;
   text-decoration: none;
   display: inline-block;
-  letter-spacing: 0.5px;
+  letter-spacing: 0.3px;
 }
 
 .candidate-btn.primary {
   background: linear-gradient(135deg, #305c6e, #4a8fa5);
   color: white;
-  box-shadow: 0 6px 20px rgba(48, 92, 110, 0.25);
+  box-shadow: 0 4px 12px rgba(48, 92, 110, 0.2);
 }
 
 .candidate-btn.primary:hover {
   background: linear-gradient(135deg, #4a8fa5, #305c6e);
-  transform: translateY(-3px);
-  box-shadow: 0 10px 30px rgba(48, 92, 110, 0.35);
-}
-
-.candidate-btn.secondary {
-  background: transparent;
-  color: #305c6e;
-  border: 2px solid #305c6e;
-  box-shadow: 0 4px 15px rgba(48, 92, 110, 0.1);
-}
-
-.candidate-btn.secondary:hover {
-  background: #305c6e;
-  color: white;
-  transform: translateY(-3px);
-  box-shadow: 0 8px 25px rgba(48, 92, 110, 0.2);
-}
-
-.candidates-footer {
-  text-align: center;
-  padding: 2.5rem;
-  background: linear-gradient(135deg, #f7fafc, #edf2f7);
-  border-radius: 20px;
-  margin-top: 3rem;
-  border: 1px solid #e2e8f0;
-}
-
-.candidates-footer p {
-  color: #2d3748;
-  font-weight: 600;
-  font-size: 1.1rem;
-  margin: 0;
-  background: linear-gradient(135deg, #305c6e, #4a8fa5);
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  background-clip: text;
+  transform: translateY(-2px);
+  box-shadow: 0 6px 16px rgba(48, 92, 110, 0.3);
 }
 
 /* Анимации */
-@keyframes slideUp {
-  from {
-    opacity: 0;
-    transform: translateY(40px) scale(0.96);
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0) scale(1);
-  }
-}
-
 @keyframes fadeIn {
   from {
     opacity: 0;
@@ -240,54 +185,62 @@
 }
 
 .candidate-card {
-  animation: fadeIn 0.6s ease-out;
+  animation: fadeIn 0.5s ease-out;
 }
 
 .candidate-card:nth-child(1) { animation-delay: 0.1s; }
-.candidate-card:nth-child(2) { animation-delay: 0.2s; }
-.candidate-card:nth-child(3) { animation-delay: 0.3s; }
+.candidate-card:nth-child(2) { animation-delay: 0.15s; }
+.candidate-card:nth-child(3) { animation-delay: 0.2s; }
+.candidate-card:nth-child(4) { animation-delay: 0.25s; }
+.candidate-card:nth-child(5) { animation-delay: 0.3s; }
+.candidate-card:nth-child(6) { animation-delay: 0.35s; }
 
 /* Адаптивность */
+@media (max-width: 1200px) {
+  .candidates-grid {
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 1.5rem;
+  }
+}
+
 @media (max-width: 968px) {
   .candidates-container {
-    padding: 1.5rem;
-    padding-top: 90px;
-  }
-  
-  .candidates-content {
-    padding: 2rem 1.5rem;
-    border-radius: 20px;
-    margin: 1rem auto;
+    padding: 70px 15px 30px;
   }
   
   .candidates-title {
-    font-size: 2.5rem;
+    font-size: 2.2rem;
   }
   
   .candidates-subtitle {
-    font-size: 1.1rem;
+    font-size: 1rem;
   }
   
   .candidates-grid {
-    grid-template-columns: 1fr;
-    gap: 2rem;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 1.5rem;
   }
   
   .candidate-image {
-    height: 250px;
+    height: 200px;
+  }
+  
+  .candidate-info {
+    padding: 1.2rem;
+  }
+  
+  .candidate-name {
+    font-size: 1.2rem;
   }
 }
 
 @media (max-width: 640px) {
   .candidates-container {
-    padding: 1rem;
-    padding-top: 80px;
+    padding: 60px 10px 20px;
   }
   
   .candidates-content {
-    padding: 1.5rem 1rem;
-    border-radius: 16px;
-    margin: 0.5rem auto;
+    padding: 0 5px;
   }
   
   .candidates-title {
@@ -295,40 +248,53 @@
   }
   
   .candidates-header {
-    margin-bottom: 3rem;
+    margin-bottom: 2rem;
+    padding: 0 10px;
+  }
+  
+  .candidates-grid {
+    grid-template-columns: 1fr;
+    gap: 1.2rem;
+    max-width: 400px;
+    margin: 0 auto 2rem;
+  }
+  
+  .candidate-image {
+    height: 180px;
   }
   
   .candidate-info {
-    padding: 1.5rem;
+    padding: 1rem;
   }
   
   .candidate-name {
-    font-size: 1.4rem;
+    font-size: 1.1rem;
+  }
+  
+  .candidate-description {
+    font-size: 0.9rem;
   }
   
   .candidate-actions {
     flex-direction: column;
   }
-  
-  .candidate-btn {
-    width: 100%;
-  }
 }
 
+/* Загрузка */
 .loading-container {
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
   height: 100vh;
-  gap: 1.5rem;
+  gap: 1.2rem;
   background: #ffffff;
-  padding-top: 80px; /* Отступ для шапки */
+  padding-top: 80px;
 }
 
 .loading-spinner {
-  width: 50px;
-  height: 50px;
+  width: 40px;
+  height: 40px;
   border: 3px solid #e2e8f0;
   border-top: 3px solid #305c6e;
   border-radius: 50%;
@@ -336,8 +302,8 @@
 }
 
 .loading-container p {
-  color: #4a5568;
-  font-size: 1.1rem;
+  color: #475569;
+  font-size: 1rem;
   font-weight: 500;
 }
 
@@ -346,14 +312,14 @@
   100% { transform: rotate(360deg); }
 }
 
-/* Дополнительные современные элементы */
+/* Дополнительные элементы */
 .candidate-card::before {
   content: '';
   position: absolute;
   top: 0;
   left: 0;
   right: 0;
-  height: 4px;
+  height: 3px;
   background: linear-gradient(135deg, #305c6e, #4a8fa5);
   opacity: 0;
   transition: opacity 0.3s ease;
@@ -369,13 +335,12 @@
   bottom: 0;
   left: 0;
   right: 0;
-  height: 40%;
-  background: linear-gradient(transparent, rgba(0, 0, 0, 0.1));
+  height: 30%;
+  background: linear-gradient(transparent, rgba(0, 0, 0, 0.08));
   pointer-events: none;
 }
 
-/* Убираем лишние отступы из JSX */
 .app {
   min-height: 100vh;
-  background: #ffffff;
+  background: #f8fafc;
 }

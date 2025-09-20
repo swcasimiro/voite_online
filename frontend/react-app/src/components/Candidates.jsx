@@ -39,7 +39,7 @@ const Candidates = () => {
       id: 1,
       name: "Майкл Де Санта",
       photo: "https://i.imgur.com/5Q8w2Wj.jpeg",
-      description: "Бывший градоначальник Лос-Сантоса с опытом работы в правоохранительных органах. Выступает за усиление безопасности и борьбу с коррупцией.",
+      description: "Бывший градоначальник Лос-Сантоса с опытом работы в правоохранительных органах.",
       party: "Партия Порядка",
       partyLink: "#"
     },
@@ -47,18 +47,11 @@ const Candidates = () => {
       id: 2,
       name: "Франклин Клинтон",
       photo: "https://i.imgur.com/3Q6q0Y2.jpeg",
-      description: "Молодой и перспективный политик, представитель нового поколения. Фокусируется на экономическом развитии и создании рабочих мест.",
+      description: "Молодой и перспективный политик, представитель нового поколения.",
       party: "Партия Развития",
       partyLink: "#"
     },
-    {
-      id: 3,
-      name: "Тревор Филлипс",
-      photo: "https://i.imgur.com/7X4q0Z1.jpeg",
-      description: "Независимый кандидат с радикальными взглядами на реформы. Выступает за кардинальные изменения в системе управления.",
-      party: "Независимый кандидат",
-      partyLink: "#"
-    }
+
   ];
 
   return (
@@ -81,7 +74,7 @@ const Candidates = () => {
                   <img src={candidate.photo} alt={candidate.name} />
                   <div className="candidate-overlay">
                     <div className="candidate-badge">
-                      Кандидат #{candidate.id}
+                      #{candidate.id}
                     </div>
                   </div>
                 </div>
@@ -90,23 +83,28 @@ const Candidates = () => {
                   <h3 className="candidate-name">{candidate.name}</h3>
                   
                   <div className="candidate-party">
-                    <span>Партия: </span>
                     <a 
                       href={candidate.partyLink} 
                       className="party-link"
-                      onClick={(e) => e.preventDefault()} // Временная заглушка
+                      onClick={(e) => e.preventDefault()}
                     >
                       {candidate.party}
                     </a>
                   </div>
                   
                   <p className="candidate-description">{candidate.description}</p>
+                  
+                  <div className="candidate-actions">
+                    <button className="candidate-btn primary">
+                      Подробнее
+                    </button>
+                  </div>
                 </div>
               </div>
             ))}
           </div>
-        </div> {/* Закрывающий тег для candidates-content */}
-      </div> {/* Закрывающий тег для candidates-container */}
+        </div>
+      </div>
     </div>
   );
 };
