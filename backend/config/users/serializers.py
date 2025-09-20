@@ -6,7 +6,8 @@ from .models import CustomUser
 class CustomUserSerializer(serializers.ModelSerializer):
     class Meta:
         model = CustomUser
-        fields = ('id', 'email', 'name')
+        fields = ('id', 'email', 'name', 'is_active_voite',
+                  'image_pass', 'image_stats')
 
 
 class LoginSerializer(serializers.Serializer):

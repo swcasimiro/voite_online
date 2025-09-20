@@ -40,6 +40,26 @@ class CustomUser(AbstractUser):
         ],
     )
 
+    is_active_voite = models.BooleanField(
+        'Голос',
+        default=False,
+        help_text='Может ли он голосовать?'
+    )
+
+    image_pass = models.ImageField(
+        upload_to='images/',
+        blank=True,
+        null=True,
+        verbose_name="Паспорт"
+    )
+
+    image_stats = models.ImageField(
+        upload_to='images/',
+        blank=True,
+        null=True,
+        verbose_name='Статистика'
+    )
+
     # using auth
     USERNAME_FIELD = 'email'
 
