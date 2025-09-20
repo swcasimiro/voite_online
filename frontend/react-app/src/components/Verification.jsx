@@ -9,9 +9,10 @@ const Verification = () => {
   const navigate = useNavigate();
   const { isAuthenticated, isLoading: authLoading, logout } = useAuth();
   const [loading, setLoading] = useState(false);
-  const [imageStatus, setImageStatus] = useState({
-    has_image_pass: false,
-    has_image_stats: false
+  const [userProfile, setUserProfile] = useState({
+    is_active_voite: false,
+    image_pass: null,
+    image_stats: null
   });
   const [uploadStatus, setUploadStatus] = useState({
     image_pass: null,
@@ -86,14 +87,14 @@ const Verification = () => {
     }
   }, [isAuthenticated, authLoading, navigate]);
 
-  // Загружаем статус изображений
+  // Загружаем статус профиля
   useEffect(() => {
     if (isAuthenticated) {
-      fetchImageStatus();
+      fetchUserProfile();
     }
   }, [isAuthenticated]);
 
-  const fetchImageStatus = async () => {
+  const fetchUserProfile = async () => {
     try {
       const response = await fetchWithAuth('http://127.0.0.1:8000/api/users/v1.0.0/me/profile/', {
         method: 'GET',
@@ -104,17 +105,14 @@ const Verification = () => {
       
       if (response.ok) {
         const data = await response.json();
-        setImageStatus({
-          has_image_pass: !!data.image_pass,
-          has_image_stats: !!data.image_stats
-        });
+        setUserProfile(data);
       } else if (response.status === 401) {
         console.error('Токен недействителен после обновления');
         logout();
         navigate('/login');
       }
     } catch (error) {
-      console.error('Ошибка загрузки статуса:', error);
+      console.error('Ошибка загрузки профиля:', error);
     }
   };
 
@@ -145,7 +143,7 @@ const Verification = () => {
     if (!file) return false;
 
     const uploadFormData = new FormData();
-    uploadFormData.append('image_file', file);  // Теперь поле всегда image_file
+    uploadFormData.append('image_file', file);
     uploadFormData.append('image_type', fieldName);
 
     try {
@@ -193,12 +191,12 @@ const Verification = () => {
 
       if (passSuccess && statsSuccess) {
         setUploadStatus({ image_pass: 'success', image_stats: 'success' });
-        await fetchImageStatus();
+        await fetchUserProfile(); // Обновляем профиль после загрузки
         setTimeout(() => {
           setUploadStatus({ image_pass: null, image_stats: null });
           setFormData({ image_pass: null, image_stats: null });
         }, 3000);
-        alert('Оба файла успешно загружены!');
+        alert('Оба файла успешно загружены! Ожидайте проверки модератором.');
       } else {
         setUploadStatus({ image_pass: 'error', image_stats: 'error' });
       }
@@ -230,6 +228,49 @@ const Verification = () => {
     return null;
   }
 
+  // Если аккаунт уже одобрен
+  if (userProfile.is_active_voite) {
+    return (
+      <div className="app">
+        <AuthNavigation />
+        <div className="verification-container">
+          <div className="verification-content">
+            <div className="verification-header">
+              <h1 className="verification-title">Верификация пройдена</h1>
+              <p className="verification-subtitle">
+                Ваш аккаунт успешно проверен и одобрен для участия в голосовании
+              </p>
+            </div>
+
+            <div className="verification-approved">
+              <div className="approval-icon">✅</div>
+              <h2>Аккаунт одобрен</h2>
+              <p>Теперь вы можете участвовать в голосовании и пользоваться всеми функциями платформы</p>
+              
+              <div className="approval-details">
+                <div className="approval-item">
+                  <span className="approval-label">Статус:</span>
+                  <span className="approval-value approved">Одобрен</span>
+                </div>
+                <div className="approval-item">
+                  <span className="approval-label">Право голоса:</span>
+                  <span className="approval-value">Активно</span>
+                </div>
+              </div>
+
+              <button 
+                className="verification-btn primary"
+                onClick={() => navigate('/elections')}
+              >
+                Перейти к выборам
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+    );
+  }
+
   return (
     <div className="app">
       <AuthNavigation />
@@ -249,7 +290,7 @@ const Verification = () => {
               <div className="verification-card">
                 <div className="verification-image">
                   <div className="document-placeholder">
-                    {imageStatus.has_image_pass ? (
+                    {userProfile.image_pass ? (
                       <div className="document-uploaded">
                         <span className="success-icon">✓</span>
                         <p>Фото загружено</p>
@@ -284,16 +325,16 @@ const Verification = () => {
                   <h3 className="verification-name">Паспортный документ</h3>
                   
                   <p className="verification-description">
-                    Загрузите четкое фото разворота паспорта с вашими данными
+                    <strong>OOC:</strong> Загрузите фотографию <strong>/pass</strong> вашего аккаунта, указанного при регистрации.
                   </p>
                   
                   <div className="verification-actions">
-                    <label className={`verification-btn ${formData.image_pass ? 'secondary' : 'primary'} ${imageStatus.has_image_pass ? 'disabled' : ''}`}>
+                    <label className={`verification-btn ${formData.image_pass ? 'secondary' : 'primary'} ${userProfile.image_pass ? 'disabled' : ''}`}>
                       <input
                         type="file"
                         accept="image/*"
                         onChange={handleFileChange('image_pass')}
-                        disabled={imageStatus.has_image_pass || loading}
+                        disabled={userProfile.image_pass || loading}
                         style={{ display: 'none' }}
                       />
                       {formData.image_pass ? 'Изменить файл' : 'Выбрать файл'}
@@ -312,7 +353,7 @@ const Verification = () => {
               <div className="verification-card">
                 <div className="verification-image">
                   <div className="document-placeholder">
-                    {imageStatus.has_image_stats ? (
+                    {userProfile.image_stats ? (
                       <div className="document-uploaded">
                         <span className="success-icon">✓</span>
                         <p>Данные загружены</p>
@@ -347,16 +388,16 @@ const Verification = () => {
                   <h3 className="verification-name">Статистические данные</h3>
                   
                   <p className="verification-description">
-                    Загрузите файл с дополнительной информацией для верификации
+                    <strong>OOC:</strong> Загрузите фотографию со статистикой, где видно ваш UCP аккаунт в игре.
                   </p>
                   
                   <div className="verification-actions">
-                    <label className={`verification-btn ${formData.image_stats ? 'secondary' : 'primary'} ${imageStatus.has_image_stats ? 'disabled' : ''}`}>
+                    <label className={`verification-btn ${formData.image_stats ? 'secondary' : 'primary'} ${userProfile.image_stats ? 'disabled' : ''}`}>
                       <input
                         type="file"
                         accept="image/*"
                         onChange={handleFileChange('image_stats')}
-                        disabled={imageStatus.has_image_stats || loading}
+                        disabled={userProfile.image_stats || loading}
                         style={{ display: 'none' }}
                       />
                       {formData.image_stats ? 'Изменить файл' : 'Выбрать файл'}
@@ -377,50 +418,52 @@ const Verification = () => {
                   <h3 className="verification-name">Статус верификации</h3>
                   
                   <div className="status-indicator">
-                    <div className={`status-dot ${imageStatus.has_image_pass && imageStatus.has_image_stats ? 'verified' : 'pending'}`}></div>
+                    <div className={`status-dot ${userProfile.is_active_voite ? 'verified' : 'pending'}`}></div>
                     <span>
-                      {imageStatus.has_image_pass && imageStatus.has_image_stats 
+                      {userProfile.is_active_voite 
                         ? 'Верификация пройдена' 
-                        : 'Верификация не завершена'
+                        : 'Ожидайте одобрения администрации'
                       }
                     </span>
                   </div>
                   
                   <div className="requirements-list">
-                    <div className={`requirement-item ${imageStatus.has_image_pass ? 'completed' : ''}`}>
+                    <div className={`requirement-item ${userProfile.image_pass ? 'completed' : ''}`}>
                       <span className="requirement-check">
-                        {imageStatus.has_image_pass ? '✓' : '•'}
+                        {userProfile.image_pass ? '✓' : '•'}
                       </span>
                       Фото паспорта загружено
                     </div>
-                    <div className={`requirement-item ${imageStatus.has_image_stats ? 'completed' : ''}`}>
+                    <div className={`requirement-item ${userProfile.image_stats ? 'completed' : ''}`}>
                       <span className="requirement-check">
-                        {imageStatus.has_image_stats ? '✓' : '•'}
+                        {userProfile.image_stats ? '✓' : '•'}
                       </span>
                       Статистика загружена
                     </div>
                   </div>
 
-                  {!imageStatus.has_image_pass || !imageStatus.has_image_stats ? (
+                  {!userProfile.is_active_voite && (
                     <div className="submit-section">
                       <button 
                         type="submit" 
                         className={`verification-btn primary submit-btn ${loading ? 'loading' : ''}`}
-                        disabled={!formData.image_pass || !formData.image_stats || loading}
+                        disabled={!formData.image_pass || !formData.image_stats || loading || (userProfile.image_pass && userProfile.image_stats)}
                       >
                         {loading ? 'Загрузка...' : 'Отправить на проверку'}
                       </button>
                       
-                      {(!formData.image_pass || !formData.image_stats) && (
+                      {(!formData.image_pass || !formData.image_stats) && !userProfile.image_pass && !userProfile.image_stats && (
                         <p className="submit-note">
                           Загрузите оба файла для отправки
                         </p>
                       )}
+                      
+                      {(userProfile.image_pass && userProfile.image_stats) && (
+                        <p className="submit-note">
+                          Документы отправлены на проверку. Ожидайте решения модератора.
+                        </p>
+                      )}
                     </div>
-                  ) : (
-                    <p className="verification-note">
-                      Документы отправлены на проверку модератором
-                    </p>
                   )}
                 </div>
               </div>

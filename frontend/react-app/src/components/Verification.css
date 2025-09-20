@@ -429,3 +429,81 @@
   transform: none;
   box-shadow: none;
 }
+
+/* Добавьте в Verification.css */
+.verification-approved {
+  text-align: center;
+  padding: 3rem;
+  background: white;
+  border-radius: 16px;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+  margin: 2rem auto;
+  max-width: 500px;
+}
+
+.approval-icon {
+  font-size: 4rem;
+  margin-bottom: 1.5rem;
+}
+
+.verification-approved h2 {
+  color: #22c55e;
+  font-size: 1.8rem;
+  margin-bottom: 1rem;
+}
+
+.verification-approved p {
+  color: #64748b;
+  margin-bottom: 2rem;
+  line-height: 1.6;
+}
+
+.approval-details {
+  background: #f8fafc;
+  padding: 1.5rem;
+  border-radius: 12px;
+  margin-bottom: 2rem;
+  text-align: left;
+}
+
+.approval-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0.5rem 0;
+  border-bottom: 1px solid #e2e8f0;
+}
+
+.approval-item:last-child {
+  border-bottom: none;
+}
+
+.approval-label {
+  color: #64748b;
+  font-weight: 500;
+}
+
+.approval-value {
+  color: #1e293b;
+  font-weight: 600;
+}
+
+.approval-value.approved {
+  color: #22c55e;
+}
+
+/* Адаптивность для approved state */
+@media (max-width: 640px) {
+  .verification-approved {
+    padding: 2rem 1rem;
+    margin: 1rem;
+  }
+  
+  .approval-icon {
+    font-size: 3rem;
+  }
+  
+  .verification-approved h2 {
+    font-size: 1.5rem;
+  }
+}

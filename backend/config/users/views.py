@@ -12,9 +12,11 @@ from rest_framework import viewsets, status, permissions
 from rest_framework.response import Response
 
 class LoginView(APIView):
+    """auth ViewSets"""
     permission_classes = [AllowAny]
 
     def post(self, request):
+        """create JWT-token"""
         serializer = LoginSerializer(data=request.data)
         serializer.is_valid(raise_exception=True)
 
