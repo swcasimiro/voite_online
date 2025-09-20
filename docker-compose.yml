@@ -4,7 +4,6 @@ services:
   web:
     build: .
     container_name: django_app
-    # МЕНЯЕМ КОМАНДУ: добавляем backend/
     command: python backend/config/manage.py runserver 0.0.0.0:8000
     volumes:
       - .:/app
