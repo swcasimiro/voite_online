@@ -2,10 +2,7 @@
 
 Современная платформа для проведения безопасных и прозрачных онлайн-выборов с верификацией пользователей.
 
-![Django](https://img.shields.io/badge/Django-092E20?style=for-the-badge&logo=django&logoColor=white)
-![React](https://img.shields.io/badge/React-20232A?style=for-the-badge&logo=react&logoColor=61DAFB)
-![Docker](https://img.shields.io/badge/Docker-2496ED?style=for-the-badge&logo=docker&logoColor=white)
-![PostgreSQL](https://img.shields.io/badge/PostgreSQL-4169E1?style=for-the-badge&logo=postgresql&logoColor=white)
+<a href="#"><img src="https://skillicons.dev/icons?i=python,django,redis,javascript,react,vite,postgresql,docker" alt="Core technologies" /></a>
 
 ![Скриншот системы](https://www.upload.ee/image/18615969/index.jpg)
 
@@ -19,33 +16,26 @@
 - 🐳 **Docker-контейнеризация** для простого развертывания
 - 🎯 **Админ-панель** на django-unfold с красивым UI
 
-## 🛠️ Технологический стек
-
-### Backend
-| Технология | Назначение | 
-|------------|------------|
-| ![Python](https://img.shields.io/badge/Python-3776AB?style=flat-square&logo=python&logoColor=white) | Основной язык программирования |
-| ![Django](https://img.shields.io/badge/Django-092E20?style=flat-square&logo=django&logoColor=white) | Веб-фреймворк | 
-| ![DRF](https://img.shields.io/badge/DRF-9C1A1C?style=flat-square&logo=django&logoColor=white) | REST API | 
-| ![Django Unfold](https://img.shields.io/badge/Unfold-6B46C1?style=flat-square) | Современная админ-панель | 
-| ![PostgreSQL](https://img.shields.io/badge/PostgreSQL-4169E1?style=flat-square&logo=postgresql&logoColor=white) | База данных | 
-
-### Frontend
-| Технология | Назначение |
-|------------|------------|
-| ![React](https://img.shields.io/badge/React-61DAFB?style=flat-square&logo=react&logoColor=white) | UI библиотека | 
-| ![Vite](https://img.shields.io/badge/Vite-646CFF?style=flat-square&logo=vite&logoColor=white) | Сборка и разработка | 
-| ![React Router](https://img.shields.io/badge/React_Router-CA4245?style=flat-square&logo=react-router&logoColor=white) | Маршрутизация | 
-| ![CSS3](https://img.shields.io/badge/CSS3-1572B6?style=flat-square&logo=css3&logoColor=white) | Стилизация |
-
-
+| Frontend | | Backend |
+|----------|-|---------|
+| **🌐 Пользовательский интерфейс** | | **⚙️ Серверная часть** |
+| ![React](https://img.shields.io/badge/React-61DAFB?style=for-the-badge&logo=react&logoColor=black) | 🠖 | ![Python](https://img.shields.io/badge/Python-3776AB?style=for-the-badge&logo=python&logoColor=white) |
+| UI библиотека, компоненты | | Основной язык программирования |
+| ![Vite](https://img.shields.io/badge/Vite-646CFF?style=for-the-badge&logo=vite&logoColor=white) | 🠖 | ![Django](https://img.shields.io/badge/Django-092E20?style=for-the-badge&logo=django&logoColor=white) |
+| Сборка и разработка | | Веб-фреймворк |
+| ![React Router](https://img.shields.io/badge/React_Router-CA4245?style=for-the-badge&logo=react-router&logoColor=white) | 🠖 | ![DRF](https://img.shields.io/badge/DRF-9C1A1C?style=for-the-badge&logo=django&logoColor=white) |
+| Маршрутизация SPA | | REST API |
+| ![CSS3](https://img.shields.io/badge/CSS3-1572B6?style=for-the-badge&logo=css3&logoColor=white) | 🠖 | ![Django Unfold](https://img.shields.io/badge/Unfold-6B46C1?style=for-the-badge) |
+| Стилизация, анимации | | Современная админ-панель |
+| ![JavaScript](https://img.shields.io/badge/JavaScript-F7DF1E?style=for-the-badge&logo=javascript&logoColor=black) | 🠖 | ![PostgreSQL](https://img.shields.io/badge/PostgreSQL-4169E1?style=for-the-badge&logo=postgresql&logoColor=white) |
+| Логика приложения | | База данных |
+| ![HTML5](https://img.shields.io/badge/HTML5-E34F26?style=for-the-badge&logo=html5&logoColor=white) | 🠖 | ![Docker](https://img.shields.io/badge/Docker-2496ED?style=for-the-badge&logo=docker&logoColor=white) |
+| Семантическая верстка | | Контейнеризация |
 ## 🚀 Быстрый старт
 
 ### Предварительные требования
-
-- Docker Desktop 24.0+
-- Docker Compose 2.22+
-- Git
+- Установленный [Docker](https://www.docker.com/)
+- Установленный [GIT](https://git-scm.com/downloads)
 
 ### Установка и запуск
 
@@ -55,7 +45,22 @@ git clone https://github.com/swcasimiro/voite_online.git
 cd voite_online
 ```
 
-### 2. Сборка и запуск проекта
+### 2. Создание .env файла.
+```bash
+voite_online/
+├── backend/                 
+├── frontend/               
+├── docker-compose.yml      
+├── .env                    #  <-- Переменные окружения, которое нужно создать.
+├── requirements.txt        
+└── README.md
+# Пример содержимого .env (соблюдайте синтаксис)
+SECRET_KEY=your_secret_key_for_django_app
+```
+
+<strong><a href="https://django-secret-key-generator.netlify.app/">Генерация ключей для Django</a></strong>
+
+### 3. Сборка и запуск проекта
 ```bash
 docker-compose up --build
 ```
@@ -68,7 +73,7 @@ docker-compose up --build
 
 🔧 Админка Django: http://localhost:8000/admin
 
-### 3. Создание пользователя с правами администратора
+### 4. Создание пользователя с правами администратора
 ```bash
-docker-compose exec backend python backend/config/manage.py createsuperuser 
+docker-compose exec backend python manage.py createsuperuser
 ```
