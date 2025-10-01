@@ -49,7 +49,26 @@
 
 ### Установка и запуск
 
-1. **Клонирование репозитория**
+### 1. Клонирование репозитория
 ```bash
-git clone https://github.com/your-username/voting-system.git
-cd voting-system
+git clone https://github.com/swcasimiro/voite_online.git
+cd voite_online
+```
+
+### 2. Сборка и запуск проекта
+```bash
+docker-compose up --build
+```
+
+### Приложение будет доступно по адресам:
+
+🌐 Frontend (React): http://localhost:5173
+
+⚙️ Backend (Django): http://localhost:8000
+
+🔧 Админка Django: http://localhost:8000/admin
+
+### 3. Создание пользователя с правами администратора
+```bash
+docker-compose exec backend python backend/config/manage.py createsuperuser 
+```

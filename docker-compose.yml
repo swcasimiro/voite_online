@@ -1,7 +1,7 @@
 version: '3.8'
 
 services:
-  web:
+  backend:
     build: .
     container_name: django_app
     command: python backend/config/manage.py runserver 0.0.0.0:8000
@@ -13,6 +13,15 @@ services:
       - SECRET_KEY=${SECRET_KEY}
     env_file:
       - .env
+
+  frontend:
+    container_name: react_app
+    build:
+      context: ./frontend/react-app
+      dockerfile: Dockerfile
+    ports:
+      - "5173:5173"
+    command: npm run dev
 
 networks:
   default:
