@@ -54,6 +54,7 @@ voite_online/
 ├── .env                    #  <-- Переменные окружения, которое нужно создать.
 ├── requirements.txt        
 └── README.md
+
 # Пример содержимого .env (соблюдайте синтаксис)
 SECRET_KEY=your_secret_key_for_django_app
 ```
@@ -62,7 +63,7 @@ SECRET_KEY=your_secret_key_for_django_app
 
 ### 3. Сборка и запуск проекта
 ```bash
-docker-compose up --build
+docker-compose up -d --build
 ```
 
 ### Приложение будет доступно по адресам:
