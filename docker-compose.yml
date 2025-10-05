@@ -2,11 +2,11 @@ services:
   backend:
     container_name: django_app
     build:
-      context: ./backend/config  # Контекст - папка config где manage.py
+      context: ./backend/config
       dockerfile: Dockerfile
     command: python manage.py runserver 0.0.0.0:8000
     volumes:
-      - ./backend/config:/app  # Монтируем папку config
+      - ./backend/config:/app  #
     working_dir: /app
     ports:
       - "8000:8000"
@@ -25,6 +25,16 @@ services:
     ports:
       - "5173:5173"
     command: npm run dev
+    volumes:
+      - ./frontend/react-app:/app
+      - /app/node_modules  
+    working_dir: /app
+    environment:
+      - CHOKIDAR_USEPOLLING=true
+      - WATCHPACK_POLLING=true
+    stdin_open: true
+    tty: true
+
 
 networks:
   default:
