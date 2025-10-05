@@ -1,20 +1,21 @@
-version: '3.8'
-
 services:
   backend:
     container_name: django_app
     build:
-      context: ./backend/config
+      context: ./backend/config  # Контекст - папка config где manage.py
       dockerfile: Dockerfile
     command: python manage.py runserver 0.0.0.0:8000
     volumes:
-      - ./backend:/app/backend
+      - ./backend/config:/app  # Монтируем папку config
+    working_dir: /app
     ports:
       - "8000:8000"
     environment:
       - SECRET_KEY=${SECRET_KEY}
+      - DEBUG=True
     env_file:
       - .env
+
 
   frontend:
     container_name: react_app

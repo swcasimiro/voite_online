@@ -37,7 +37,7 @@ const Candidates = () => {
   const candidates = [
     {
       id: 1,
-      name: "Майкл Де Санта",
+      name: "Майкл Де Сантаs",
       photo: "https://i.imgur.com/5Q8w2Wj.jpeg",
       description: "Бывший градоначальник Лос-Сантоса с опытом работы в правоохранительных органах.",
       party: "Партия Порядка",
