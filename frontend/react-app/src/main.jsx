@@ -4,8 +4,9 @@ import { BrowserRouter, Routes, Route } from 'react-router-dom'
 import App from './App.jsx'
 import Login from './components/Login.jsx'
 import Register from './components/Register.jsx'
-import Candidates from './components/Candidates.jsx' // Добавляем импорт
+import Candidates from './components/Candidates.jsx' 
 import Verification from './components/Verification';
+import Vote from './components/Vote.jsx'
 import './index.css'
 
 ReactDOM.createRoot(document.getElementById('root')).render(
@@ -17,6 +18,7 @@ ReactDOM.createRoot(document.getElementById('root')).render(
         <Route path="/register" element={<Register />} />
         <Route path="/candidates" element={<Candidates />} /> 
         <Route path="/verification" element={<Verification />} />
+        <Route path="/elections" element={<Vote />} />
       </Routes>
     </BrowserRouter>
   </React.StrictMode>,
