@@ -164,7 +164,7 @@ function App() {
             <div className="footer-section">
               <h4>Контакты</h4>
               <p>+1 (555) 20-4567</p>
-              <a href='https://github.com/swcasimiro'>swcasimrio</a>
+              <a href='https://swcasimiro.github.io/'><img src="https://www.upload.ee/image/18671372/74432871-3703-417b-9984-8edfbfc81a43.png" alt="Логотип swcasimrio" className="footer-logo" /></a>
             </div>
             <div className="footer-section">
               <h4>Адрес</h4>

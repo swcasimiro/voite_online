@@ -6,7 +6,7 @@ services:
       dockerfile: Dockerfile
     command: python manage.py runserver 0.0.0.0:8000
     volumes:
-      - ./backend/config:/app  #
+      - ./backend/config:/app
     working_dir: /app
     ports:
       - "8000:8000"

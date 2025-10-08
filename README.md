@@ -52,7 +52,7 @@ voite_online/
 ├── frontend/               
 ├── docker-compose.yml      
 ├── .env                    #  <-- Переменные окружения, которое нужно создать.
-├── requirements.txt        
+├── pyproject.toml        
 └── README.md
 
 # Пример содержимого .env (соблюдайте синтаксис)
