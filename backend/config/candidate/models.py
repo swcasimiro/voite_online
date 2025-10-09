@@ -84,3 +84,22 @@ class Vote(models.Model):
 
     def __str__(self):
         return f'{self.user.name} - {self.candidate.name}'
+
+
+class StatusVote(models.Model):
+    """ model for vote status."""
+    closed_vote = models.BooleanField(
+        'Статус',
+        default=False,
+        help_text='Если True - закрыто, если False - открыто. При закрытом будут выведены результаты.'
+    )
+
+    def __str__(self):
+        if self.closed_vote:
+            return 'Выборы закрыты'
+        else:
+            return 'Выборы открыты и доступно голосование.'
+
+
+    class Meta:
+        verbose_name = 'Статус голосования'
