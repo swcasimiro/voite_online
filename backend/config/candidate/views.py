@@ -3,17 +3,18 @@ from rest_framework.decorators import action
 from rest_framework.response import Response
 from rest_framework.permissions import IsAuthenticated, AllowAny
 from django.http import Http404
-from .models import Candidate, Vote
-from .serializers import CandidateSerializer, VoteSerializer, VoteCreateSerializer
+from .models import Candidate, Vote, StatusVote
+from .serializers import (CandidateSerializer, VoteSerializer,
+                          VoteCreateSerializer, VoteStatusSerializer, CandidateResultSerializer)
 
 
 class CandidateViewSet(viewsets.ReadOnlyModelViewSet):
-    """ViewSet для кандидатов - только чтение"""
+    """ViewSet no jwt"""
     queryset = Candidate.objects.all()
     serializer_class = CandidateSerializer
 
     def get_permissions(self):
-        """Разрешаем доступ без авторизации только к списку и деталям"""
+        """check permissions"""
         if self.action in ['list', 'retrieve']:
             permission_classes = [AllowAny]
         else:
@@ -21,12 +22,19 @@ class CandidateViewSet(viewsets.ReadOnlyModelViewSet):
         return [permission() for permission in permission_classes]
 
 
+
+class CandidateResultViewSet(viewsets.ReadOnlyModelViewSet):
+    """ViewSet no jwt"""
+    queryset = Candidate.objects.all()
+    serializer_class = CandidateResultSerializer
+    permission_classes = [AllowAny]
+
+
 class VoteViewSet(viewsets.ViewSet):
-    """ViewSet для голосования"""
+    """ViewSet FOr vote"""
     permission_classes = [IsAuthenticated]
 
     def list(self, request):
-        """Получить свой голос"""
         try:
             vote = Vote.objects.get(user=request.user)
             serializer = VoteSerializer(vote)
@@ -35,10 +43,10 @@ class VoteViewSet(viewsets.ViewSet):
             raise Http404("Вы еще не голосовали")
 
     def create(self, request):
-        """Проголосовать"""
+        """vote POST"""
         user = request.user
 
-        # Проверяем, не голосовал ли пользователь уже
+        # valid check vote or dont user
         if Vote.objects.filter(user=user).exists():
             return Response(
                 {"error": "Вы уже проголосовали"},
@@ -47,10 +55,10 @@ class VoteViewSet(viewsets.ViewSet):
 
         serializer = VoteCreateSerializer(data=request.data)
         if serializer.is_valid():
-            # Получаем объект кандидата из validated_data
+            # get object candidate
             candidate = serializer.validated_data['candidate']
 
-            # Создаем голос
+            # make vote
             vote = Vote.objects.create(user=user, candidate=candidate)
             return Response(
                 VoteSerializer(vote).data,
@@ -61,7 +69,7 @@ class VoteViewSet(viewsets.ViewSet):
 
     @action(detail=False, methods=['get'])
     def status(self, request):
-        """Проверить статус голосования"""
+        """check status vote"""
         has_voted = Vote.objects.filter(user=request.user).exists()
 
         if has_voted:
@@ -79,10 +87,9 @@ class VoteViewSet(viewsets.ViewSet):
 
 
 class ResultsViewSet(viewsets.ViewSet):
-    """ViewSet для результатов голосования"""
+    """dont work endpoint - fix logic need"""
 
     def get_permissions(self):
-        """Разрешаем доступ без авторизации к результатам"""
         if self.action in ['list']:
             permission_classes = [AllowAny]
         else:
@@ -90,7 +97,13 @@ class ResultsViewSet(viewsets.ViewSet):
         return [permission() for permission in permission_classes]
 
     def list(self, request):
-        """Получить результаты голосования"""
         candidates = Candidate.objects.all().order_by('-votes_count')
         serializer = CandidateSerializer(candidates, many=True)
         return Response(serializer.data)
+
+
+class VoteStatusViewSet(viewsets.ReadOnlyModelViewSet):
+    """Status vote"""
+    queryset = StatusVote.objects.all()
+    serializer_class = VoteStatusSerializer
+    permission_classes = [AllowAny]

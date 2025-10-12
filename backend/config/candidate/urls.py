@@ -14,6 +14,12 @@ router.register(r'vote', views.VoteViewSet, basename='vote')
 # http://127.0.0.1:8000/api/candidate/v1.0.0/results/ - голос
 router.register(r'results', views.ResultsViewSet, basename='results')
 
+# http://127.0.0.1:8000/api/candidate/v1.0.0/status-vote/
+router.register(r'status-vote', views.VoteStatusViewSet, basename='status-vote')
+
+# http://127.0.0.1:8000/api/candidate/v1.0.0/candidate-status/
+router.register(r'candidate-status', views.CandidateResultViewSet, basename='candidate-status')
+
 urlpatterns = [
     path('', include(router.urls)),
 ]

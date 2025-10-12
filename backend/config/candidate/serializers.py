@@ -1,5 +1,5 @@
 from rest_framework import serializers
-from .models import Candidate, Vote
+from .models import Candidate, Vote, StatusVote
 
 
 class CandidateSerializer(serializers.ModelSerializer):
@@ -7,6 +7,14 @@ class CandidateSerializer(serializers.ModelSerializer):
         model = Candidate
         fields = ['id', 'name', 'description', 'photo', 'party',
                   'party_website']
+        read_only_fields = ['id']
+
+
+class CandidateResultSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Candidate
+        fields = ['id', 'name', 'description', 'photo', 'party',
+                  'party_website', 'votes_count']
         read_only_fields = ['id']
 
 
@@ -25,3 +33,9 @@ class VoteCreateSerializer(serializers.ModelSerializer):
     class Meta:
         model = Vote
         fields = ['candidate']
+
+
+class VoteStatusSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = StatusVote
+        fields = ['closed_vote']
